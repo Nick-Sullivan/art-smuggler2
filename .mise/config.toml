@@ -1,0 +1,26 @@
+# Mise is a package manager and makefile.
+# Install mise by following the docs:
+#  https://mise.jdx.dev/getting-started.html
+# 
+#  mise install       - Install packages
+#  mise list          - View installed packages
+#  mise use <package> - Add a new package
+#  mise prune         - Remove unused packages
+#  mise <taskname>    - Run a task
+
+[settings]
+experimental = true
+python.uv_venv_auto = true
+
+[tools]
+python = "3.11"
+
+[tasks.init]
+description = "Install python dependencies in a virtual environment"
+alias = "ip"
+run = ["uv venv --allow-existing", "uv sync", "uv pip install -e ."]
+
+[tasks.script]
+description = "Run a script, e.g. mise script shatter"
+usage = 'arg "<name>" help="Script in scripts/, without .py"'
+run = "python scripts/${usage_name}.py"
